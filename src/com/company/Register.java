@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.*;
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public class Register{
@@ -72,8 +74,9 @@ public class Register{
                 System.out.println(getRepeatPassword());
 
                 if(checkPasswords()){
-                    registerDialog.dispose();
-                    new Login();
+                    saveUser();
+                    // registerDialog.dispose();
+                    // new Login();
                 }
 
             }
@@ -125,6 +128,10 @@ public class Register{
         this.repeatPassword = repeatPassword;
     }
 
+    public boolean checkIfUsernameValid(){
+        return username.length() >= 4 && username.length() <= 16;
+    }
+
     public boolean checkIfPasswordIsIdentical(){
         return Arrays.equals(password, repeatPassword);
     }
@@ -132,8 +139,9 @@ public class Register{
     public boolean checkPasswordLenValidation(){
         return password.length <= 16 && password.length >=4;
     }
+
     private boolean checkPasswords(){
-        if(checkIfPasswordIsIdentical()){
+        if(checkIfPasswordIsIdentical() && checkIfUsernameValid()){
             if(checkPasswordLenValidation()){
                 JOptionPane.showMessageDialog(registerDialog, "User successfully registered");
                 passwordTextField.setText("");
@@ -147,11 +155,23 @@ public class Register{
                 return false;
             }
         }
+        else if(checkIfPasswordIsIdentical() && !checkIfUsernameValid()){
+            JOptionPane.showMessageDialog(registerDialog, "Username too short or too long");
+            usernameTextField.setText("");
+            passwordTextField.setText("");
+            repeatPasswordField.setText("");
+            return false;
+        }
         else{
             JOptionPane.showMessageDialog(registerDialog, "Passwords are not identical");
             passwordTextField.setText("");
             repeatPasswordField.setText("");
             return false;
         }
+    }
+
+    private void saveUser(){
+        DataBase db = new DataBase();
+        db.createUser(username, String.valueOf(password));
     }
 }

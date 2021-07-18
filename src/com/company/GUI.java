@@ -1,11 +1,18 @@
 package com.company;
 
 
+import com.mysql.cj.log.Log;
+
+import javax.print.attribute.standard.RequestingUserName;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 
 public class GUI{
@@ -60,7 +67,7 @@ public class GUI{
 
     }
     public static void main (String[]args){
-        new Register();
+        new GUI();
     }
 
 }
