@@ -42,14 +42,14 @@ public class Login {
         submitButton.addActionListener( e ->{
             setUsername(usernameField.getText());
             setPassword(passwordField.getPassword());
-            System.out.println(getUsername());
-            System.out.println(getPassword());
+
 
             if(checkIfFilled()){
                 DataBase db = new DataBase();
                 if(db.checkIfUserExists(username, String.valueOf(password))){
                     JOptionPane.showMessageDialog(loginDialog, "You were logged in");
                     loginDialog.dispose();
+                    System.exit(0);
                 }
                 else{
                     JOptionPane.showMessageDialog(loginDialog, "Wrong password or username");

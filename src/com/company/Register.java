@@ -69,14 +69,10 @@ public class Register{
                 setPassword(passwordTextField.getPassword());
                 setRepeatPassword(repeatPasswordField.getPassword());
 
-                System.out.println(getUsername());
-                System.out.println(getPassword());
-                System.out.println(getRepeatPassword());
-
-                if(checkPasswords()){
+                if(checkPasswords() && checkForValidCharacters(username, password)){
                     saveUser();
-                    // registerDialog.dispose();
-                    // new Login();
+                    registerDialog.dispose();
+                    new Login();
                 }
 
             }
@@ -173,5 +169,36 @@ public class Register{
     private void saveUser(){
         DataBase db = new DataBase();
         db.createUser(username, String.valueOf(password));
+    }
+
+    private boolean checkForValidCharacters(String username, char[] password){
+        boolean usernameValid = false;
+        boolean passwordValid = false;
+
+        char[] charUsername = username.toCharArray();
+
+
+        for(char c: charUsername){
+            usernameValid = ((c >= 'a') && (c <= 'z')) ||
+                    ((c >= 'A') && (c <= 'Z')) ||
+                    ((c >= '0') && (c <= '9'));
+            if(!usernameValid){
+                JOptionPane.showMessageDialog(registerDialog, "Username contains not valid character");
+                break;
+            }
+        }
+
+        for(char c: password){
+            passwordValid = ((c >= 'a') && (c <= 'z')) ||
+                    ((c >= 'A') && (c <= 'Z')) ||
+                    ((c >= '0') && (c <= '9'));
+            if(!passwordValid){
+                JOptionPane.showMessageDialog(registerDialog, "Password contains not valid character");
+                break;
+            }
+        }
+
+        return usernameValid && passwordValid;
+
     }
 }
