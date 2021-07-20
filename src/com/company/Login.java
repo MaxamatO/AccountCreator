@@ -2,9 +2,7 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
 
 public class Login {
 
@@ -45,7 +43,13 @@ public class Login {
 
 
             if(checkIfFilled()){
-                DataBase db = new DataBase();
+                DataBase db = null;
+                try {
+                    db = new DataBase();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                assert db != null;
                 if(db.checkIfUserExists(username, String.valueOf(password))){
                     JOptionPane.showMessageDialog(loginDialog, "You were logged in");
                     loginDialog.dispose();

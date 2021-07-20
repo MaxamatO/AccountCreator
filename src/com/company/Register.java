@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.*;
-import java.text.MessageFormat;
 import java.util.Arrays;
 
 public class Register{
@@ -70,7 +68,11 @@ public class Register{
                 setRepeatPassword(repeatPasswordField.getPassword());
 
                 if(checkPasswords() && checkForValidCharacters(username, password)){
-                    saveUser();
+                    try {
+                        saveUser();
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
                     registerDialog.dispose();
                     new Login();
                 }
@@ -166,7 +168,7 @@ public class Register{
         }
     }
 
-    private void saveUser(){
+    private void saveUser() throws Exception {
         DataBase db = new DataBase();
         db.createUser(username, String.valueOf(password));
     }
